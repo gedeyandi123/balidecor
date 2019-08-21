@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 
 /** plugins */
+import '@/plugins/antd'
 import router from '@/plugins/router'
 import i18n from '@/plugins/i18n'
 import vuex from '@/plugins/vuex'

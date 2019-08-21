@@ -1,16 +1,17 @@
-const Home = () => import('@/pages/Home')
-const Medium = () => import('@/pages/Medium')
+const Layout = () => import('@/layouts')
+const Login = () => import('@/layouts/login')
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Layout',
+    component: Layout,
   },
   {
-    path: '/medium',
-    name: 'Medium',
-    component: Medium,
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    rules: ['public'],
   },
 ]
 

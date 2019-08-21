@@ -54,6 +54,17 @@ const webpackConfig = {
         ],
       },
       {
+        test: /\.less$/,
+        use: [
+          { loader: 'vue-style-loader' },
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'less-loader',
+            options: { javascriptEnabled: true, modifyVars: { 'primary-color': '#1DA57A' } },
+          },
+        ],
+      },
+      {
         test: /\.(png|svg|jpg|gif)$/,
         loader: 'file-loader',
         options: { outputPath: 'images' },

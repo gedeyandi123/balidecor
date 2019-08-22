@@ -1,51 +1,47 @@
 <template>
-  <div class="header">
-    <div class="container">
-      <a-row type="flex" align="middle" class="header-top">
-        <a-col :span="12">
-          <div class="contact-info">
-            <ul class="nav nav-pills">
-              <li class="item float-item">
-                <a-icon type="phone" />
-                <span>+62 821 1234 5678</span>
-              </li>
-              <li class="item float-item">
-                <a href="mailto:email@email.com">
-                  <a-icon type="mail" />
-                  <span>bukan@email.com</span>
-                </a>
-              </li>
-            </ul>
-          </div>
+  <a-layout id="header">
+    <a-layout-header class="header-top">
+      <div class="logo" v-if="isLoggedIn && rules === 'admin'" />
+      <a-row type="flex" align="middle">
+        <a-col :span="12" class="header-left">
+          <a-menu mode="horizontal" :selectable="false" :defaultSelectedKeys="[]">
+            <a-menu-item key="contact">
+              <a-icon type="phone" />+62 821 1234 5678
+            </a-menu-item>
+            <a-menu-item key="email">
+              <a-icon type="mail" />bukan@email.com
+            </a-menu-item>
+          </a-menu>
         </a-col>
-        <a-col :span="12">
-          <div class="account-sosmed">
-            <ul class="nav nav-pills">
-              <li class="float-item">
-                <div class="item">
-                  <a href="http://instagram.com" target="_blank">
-                    <a-icon type="instagram" />
-                  </a>
-                </div>
-              </li>
-              <li class="item float-item" v-if="!isLoggedIn">
-                <div class="item">
-                  <a-icon type="login" />
-                  <router-link to="/login">Login or Register</router-link>
-                </div>
-              </li>
-              <li class="item float-item" v-if="isLoggedIn" v-on:click="onLogout">
-                <div class="item">
-                  <a-icon type="logout" />
-                  <span>Logout</span>
-                </div>
-              </li>
-            </ul>
-          </div>
+        <a-col :span="12" class="header-right">
+          <a-menu mode="horizontal" :selectable="false" :defaultSelectedKeys="[]">
+            <a-menu-item key="instagram">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <a-icon type="instagram" />
+              </a>
+            </a-menu-item>
+            <a-menu-item key="login" v-if="!isLoggedIn">
+              <router-link to="/login">
+                <a-icon type="login" />Login or Register
+              </router-link>
+            </a-menu-item>
+
+            <a-sub-menu v-if="isLoggedIn">
+              <span slot="title" class="submenu-title-wrapper">
+                <a-icon type="user" />admin@email.com
+              </span>
+              <a-menu-item key="account">
+                <a-icon type="idcard" />Profile
+              </a-menu-item>
+              <a-menu-item key="logout" v-on:click="onLogout">
+                <a-icon type="logout" />Logout
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
         </a-col>
       </a-row>
-    </div>
-  </div>
+    </a-layout-header>
+  </a-layout>
 </template>
 
 <script>
@@ -55,14 +51,18 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      rules: null,
     }
   },
 
   created() {
     const token = store.get('token')
     if (token) {
+      const rules = store.get('rules')
       let that = this
+
       that.isLoggedIn = true
+      that.rules = rules
     }
   },
 
@@ -77,60 +77,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.header {
-  font-size: 12px;
-  color: #696763;
-  font-family: 'Roboto', sans-serif;
-  background: none repeat scroll 0 0 #f0f0e9;
-}
-.header-top {
-  height: 35px;
-  max-height: 35px;
-}
-.contact-info {
+#header .logo {
+  height: 40px;
+  width: 190px;
+  padding: 0 10px;
+  background: rgba(214, 150, 150, 0.2);
   float: left;
 }
-.account-sosmed {
-  float: right;
-}
-.nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-pills {
-  margin: 0 auto;
-  .float-item {
+.header-top {
+  position: fixed;
+  width: 100%;
+  .ant-menu {
+    line-height: 39px;
+  }
+  .ant-menu-horizontal {
+    border-bottom: 0;
+  }
+  .ant-menu-item {
+    border-bottom: 0;
+  }
+  .ant-menu-item:hover {
+    border-bottom: 0;
+  }
+  .header-left {
     float: left;
-    padding-right: 20px;
   }
-  .item {
-    cursor: pointer;
-    text-decoration: none;
-    a {
-      color: #696763;
-    }
+  .header-right {
+    float: right;
+    text-align: right;
   }
 }
-.nav-pills:after {
-  content: '.';
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
+.ant-layout-header {
+  height: 40px;
+  padding: 0 10px;
+  background: none repeat scroll 0 0 #f0f0e9;
 }
-@media screen and (max-width: 425px) {
-  .header {
-    font-size: 8px;
-    font-weight: 400;
-    // font-size: calc(8px * ((100vw - 425px) / 680));
-  }
-}
-@media screen and (max-width: 375px) {
-  .header {
-    font-size: 6px;
-    font-weight: 400;
-    // font-size: calc(8px * ((100vw - 425px) / 680));
-  }
+.ant-menu-horizontal {
+  background: none repeat scroll 0 0 #f0f0e9 !important;
 }
 </style>

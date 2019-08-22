@@ -1,11 +1,11 @@
-const Layout = () => import('@/layouts')
+const Home = () => import('@/layouts')
 const Login = () => import('@/layouts/login')
 
 const routes = [
   {
     path: '/',
-    name: 'Layout',
-    component: Layout,
+    name: 'Home',
+    component: Home,
   },
   {
     path: '/login',

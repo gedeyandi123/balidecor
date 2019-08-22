@@ -2,6 +2,12 @@
 node_modules
 /dist
 
+# config
+/src/config.js
+
+# dumb
+/src/db/seeds/dumb
+
 # local env files
 .env.local
 .env.*.local
